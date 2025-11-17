@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scegli la tua piattaforma</title>
+    <title>AlfaTraka - Scarica l'app</title>
     <style>
         * {
             margin: 0;
@@ -13,45 +13,120 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(180deg, rgba(205, 214, 232, 0.60) 0%, rgba(245, 249, 253, 0.60) 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Middle layer background */
+        .middle-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        .middle-layer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .middle-layer.fade-out {
+            opacity: 0;
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
-            width: 100%;
-            padding: 40px;
-            text-align: center;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px;
         }
 
-        .logo {
-            font-size: 48px;
-            margin-bottom: 20px;
+        /* Logo section */
+        .logo-section {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            animation: fadeInDown 1s ease;
+        }
+
+        .logo-section img {
+            max-width: 300px;
+            width: 80%;
+            height: auto;
+        }
+
+        /* Content area */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Mockup image */
+        .mockup-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            opacity: 1;
+            transform: scale(1);
+            transition: all 1s ease;
+        }
+
+        .mockup-container.fade-out {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .mockup-container img {
+            width: 100%;
+            height: auto;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        /* Buttons section */
+        .buttons-section {
+            width: 100%;
+            max-width: 500px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .buttons-section.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         h1 {
-            color: #333;
+            color: #231F20;
             font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 16px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
         }
 
         .buttons {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            padding: 0 20px;
         }
 
         .btn {
@@ -68,6 +143,7 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .btn::before {
@@ -91,8 +167,8 @@
         }
 
         .btn-ios:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
         .btn-android {
@@ -101,18 +177,23 @@
         }
 
         .btn-android:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(61, 220, 132, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(61, 220, 132, 0.35);
         }
 
         .btn-web {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #EA1A2D 0%, #C41222 100%);
             color: white;
         }
 
         .btn-web:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(234, 26, 45, 0.35);
+        }
+
+        .btn.suggested {
+            border: 3px solid #FFD700;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
         }
 
         .icon {
@@ -120,84 +201,147 @@
             margin-right: 12px;
         }
 
-        .divider {
-            margin: 30px 0;
-            height: 1px;
-            background: #e0e0e0;
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .info {
-            color: #888;
-            font-size: 14px;
-            line-height: 1.6;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
+        /* Responsive */
         @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
+            .logo-section img {
+                max-width: 250px;
             }
 
             h1 {
                 font-size: 24px;
+                margin-bottom: 20px;
             }
 
             .btn {
                 padding: 16px 25px;
                 font-size: 15px;
             }
+
+            .container {
+                padding: 30px 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .logo-section img {
+                max-width: 400px;
+            }
+
+            .mockup-container {
+                max-width: 450px;
+            }
+
+            .buttons {
+                padding: 0;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Middle Layer Background -->
+    <div class="middle-layer" id="middleLayer">
+        <img src="middlelayer.svg" alt="Background Pattern">
+    </div>
+
     <div class="container">
-        <div class="logo">📱</div>
-        <h1>Scarica la nostra app</h1>
-        <p class="subtitle">Scegli la piattaforma per il tuo dispositivo</p>
-        
-        <div class="buttons">
-            <a href="https://apps.apple.com/it/app/alfatraka/id1434355866" class="btn btn-ios">
-                <span class="icon">🍎</span>
-                <span>Scarica su App Store</span>
-            </a>
-            
-            <a href="https://play.google.com/store/apps/details?id=com.alfagomma.alfatraka" class="btn btn-android">
-                <span class="icon">🤖</span>
-                <span>Scarica su Google Play</span>
-            </a>
-            
-            <a href="https://account.alfagomma.com/?appid=2" class="btn btn-web">
-                <span class="icon">🌐</span>
-                <span>Apri App Web</span>
-            </a>
+        <!-- Logo -->
+        <div class="logo-section">
+            <img src="logo.svg" alt="AlfaTraka Logo">
         </div>
 
-        <div class="divider"></div>
-        
-        <p class="info">
-            Scegli la piattaforma corrispondente al tuo dispositivo per accedere alla migliore esperienza.
-        </p>
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Mockup Image -->
+            <div class="mockup-container" id="mockupContainer">
+                <img src="https://via.placeholder.com/400x700/f5f5f5/EA1A2D?text=AlfaTraka+App" alt="AlfaTraka App Mockup">
+            </div>
+
+            <!-- Buttons (initially hidden) -->
+            <div class="buttons-section" id="buttonsSection">
+                <h1>Scarica l'app AlfaTraka</h1>
+                <div class="buttons">
+                    <a href="https://apps.apple.com/it/app/alfatraka/id1434355866" class="btn btn-ios" id="btnIos">
+                        <span class="icon">🍎</span>
+                        <span>Scarica su App Store</span>
+                    </a>
+                    
+                    <a href="https://play.google.com/store/apps/details?id=com.alfagomma.alfatraka" class="btn btn-android" id="btnAndroid">
+                        <span class="icon">🤖</span>
+                        <span>Scarica su Google Play</span>
+                    </a>
+                    
+                    <a href="https://account.alfagomma.com/?appid=2" class="btn btn-web" id="btnWeb">
+                        <span class="icon">🌐</span>
+                        <span>Accedi da Web</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty spacer for layout balance -->
+        <div style="height: 40px;"></div>
     </div>
 
     <script>
-        // Auto-detect e suggerisci la piattaforma corretta
+        // Animation sequence
         window.addEventListener('DOMContentLoaded', function() {
+            const middleLayer = document.getElementById('middleLayer');
+            const mockupContainer = document.getElementById('mockupContainer');
+            const buttonsSection = document.getElementById('buttonsSection');
+
+            // Auto-detect platform
             const ua = navigator.userAgent.toLowerCase();
-            let suggestedPlatform = null;
+            let suggestedBtn = null;
 
             if (/iphone|ipad|ipod/.test(ua)) {
-                suggestedPlatform = 'iOS';
-                document.querySelector('.btn-ios').style.border = '3px solid #FFD700';
+                suggestedBtn = document.getElementById('btnIos');
             } else if (/android/.test(ua)) {
-                suggestedPlatform = 'Android';
-                document.querySelector('.btn-android').style.border = '3px solid #FFD700';
+                suggestedBtn = document.getElementById('btnAndroid');
             } else {
-                suggestedPlatform = 'Web';
-                document.querySelector('.btn-web').style.border = '3px solid #FFD700';
+                suggestedBtn = document.getElementById('btnWeb');
             }
 
-            if (suggestedPlatform) {
-                console.log('Piattaforma suggerita:', suggestedPlatform);
-            }
+            // Start animation after 2 seconds
+            setTimeout(function() {
+                // Fade out middle layer
+                middleLayer.classList.add('fade-out');
+                
+                // Fade out mockup
+                mockupContainer.classList.add('fade-out');
+                
+                // Show buttons after mockup fades out
+                setTimeout(function() {
+                    buttonsSection.classList.add('show');
+                    
+                    // Add suggested class to platform button
+                    if (suggestedBtn) {
+                        suggestedBtn.classList.add('suggested');
+                    }
+                }, 500);
+            }, 2000);
         });
     </script>
 </body>

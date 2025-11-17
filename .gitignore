@@ -27,3 +27,4 @@ Thumbs.db
 # Ignora file di build
 dist/
 build/
+.vercel
