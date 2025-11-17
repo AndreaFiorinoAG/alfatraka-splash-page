@@ -1,0 +1,22 @@
+{
+  "name": "qr-code-redirect",
+  "version": "1.0.0",
+  "description": "Middleware per reindirizzare utenti verso App Store, Play Store o Web App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "qr-code",
+    "redirect",
+    "app-store",
+    "play-store",
+    "middleware"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
